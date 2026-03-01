@@ -15,7 +15,7 @@ async function init() {
 
         window.requestAnimationFrame(loop);
     } catch (error) {
-        alert("Error al iniciar cámara: " + error);
+        alert("Error: " + error);
     }
 }
 
@@ -35,15 +35,6 @@ async function predict() {
         }
     }
 
-    let precio = "";
-
-    if (highest.className === "verde 300") {
-        precio = "$300";
-    } else if (highest.className === "rojo 200") {
-        precio = "$500";
-    }
-
     document.getElementById("resultado").innerHTML =
-        "Detectado: " + highest.className +
-        "<br>Precio: " + precio;
+        "Detectado: " + highest.className;
 }
