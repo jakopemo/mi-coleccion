@@ -1,18 +1,22 @@
-let model, webcam, labelContainer;
+let model, webcam;
 
-const URL = "const URL = "https://teachablemachine.withgoogle.com/models/TU_ENLACE/";
+const URL = "./";
 
 async function init() {
-    model = await tmImage.load(URL + "modelo.json", URL + "metadatos.json");
+    try {
+        model = await tmImage.load(URL + "model.json", URL + "metadata.json");
 
-    webcam = new tmImage.Webcam(300, 300, true); 
-    await webcam.setup({ facingMode: "environment" }); 
-    await webcam.play();
+        webcam = new tmImage.Webcam(300, 300, true);
+        await webcam.setup({ facingMode: "environment" });
+        await webcam.play();
 
-    document.getElementById("webcam-container").innerHTML = "";
-    document.getElementById("webcam-container").appendChild(webcam.canvas);
+        document.getElementById("webcam-container").innerHTML = "";
+        document.getElementById("webcam-container").appendChild(webcam.canvas);
 
-    window.requestAnimationFrame(loop);
+        window.requestAnimationFrame(loop);
+    } catch (error) {
+        alert("Error al iniciar cámara: " + error);
+    }
 }
 
 async function loop() {
@@ -43,5 +47,3 @@ async function predict() {
         "Detectado: " + highest.className +
         "<br>Precio: " + precio;
 }
-
-
