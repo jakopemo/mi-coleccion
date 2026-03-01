@@ -33,9 +33,9 @@ async function predict() {
 
     let precio = "";
 
-    if (highest.className === "TU_NOMBRE_1") {
+    if (highest.className === "verde 300") {
         precio = "$300";
-    } else if (highest.className === "TU_NOMBRE_2") {
+    } else if (highest.className === "rojo 200") {
         precio = "$500";
     }
 
@@ -43,3 +43,4 @@ async function predict() {
         "Detectado: " + highest.className +
         "<br>Precio: " + precio;
 }
+
