@@ -1,26 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Mi Colección</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/mobilenet"></script>
+    <title>Mi Colección</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest"></script>
 </head>
 <body>
+    <h1>Mi Colección</h1>
+    <button onclick="init()">Activar Cámara</button>
+    <div id="webcam-container"></div>
+    <h2 id="resultado"></h2>
 
-  <h1>📦 Mi Colección de Muñecos</h1>
-
-  <input type="file" id="imageInput" accept="image/*">
-  <button onclick="analyzeImage()">Reconocer</button>
-
-  <h2 id="result"></h2>
-
-  <input type="number" id="priceInput" placeholder="Asigna precio">
-  <button onclick="saveItem()">Guardar en colección</button>
-
-  <h3>Mis muñecos:</h3>
-  <ul id="collectionList"></ul>
-
-  <script src="app.js"></script>
+    <script src="aplicación.js"></script>
 </body>
 </html>
