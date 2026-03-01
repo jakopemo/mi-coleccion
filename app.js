@@ -1,6 +1,6 @@
 let model, webcam, labelContainer;
 
-const URL = "./";
+const URL = "const URL = "https://teachablemachine.withgoogle.com/models/TU_ENLACE/";
 
 async function init() {
     model = await tmImage.load(URL + "modelo.json", URL + "metadatos.json");
@@ -43,4 +43,5 @@ async function predict() {
         "Detectado: " + highest.className +
         "<br>Precio: " + precio;
 }
+
 
