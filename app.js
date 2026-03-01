@@ -1,57 +1,43 @@
 let model;
-let currentPrediction = "";
+const URL = "./";
 
-async function loadModel() {
-  model = await mobilenet.load();
-  console.log("Modelo cargado");
+async function init() {
+    model = await tmImage.load(URL + "modelo.json", URL + "metadatos.json");
+    const webcam = new tmImage.Webcam(300, 300, true);
+    await webcam.setup();
+    await webcam.play();
+    window.requestAnimationFrame(loop);
+
+    document.getElementById("webcam-container").appendChild(webcam.canvas);
+
+    async function loop() {
+        webcam.update();
+        await predict(webcam.canvas);
+        window.requestAnimationFrame(loop);
+    }
+
+    async function predict(image) {
+        const prediction = await model.predict(image);
+        let highest = prediction[0];
+
+        for (let i = 1; i < prediction.length; i++) {
+            if (prediction[i].probability > highest.probability) {
+                highest = prediction[i];
+            }
+        }
+
+        let precio = "";
+
+        if (highest.className === "NombreDeTuFigura1") {
+            precio = "$300";
+        } else if (highest.className === "NombreDeTuFigura2") {
+            precio = "$500";
+        }
+
+        document.getElementById("resultado").innerHTML =
+            "Detectado: " + highest.className +
+            "<br>Precio: " + precio;
+    }
 }
 
-loadModel();
-
-async function analyzeImage() {
-  const input = document.getElementById("imageInput");
-  const file = input.files[0];
-  const img = document.createElement("img");
-  img.src = URL.createObjectURL(file);
-
-  img.onload = async () => {
-    const predictions = await model.classify(img);
-    currentPrediction = predictions[0].className;
-    document.getElementById("result").innerText =
-      "Detectado: " + currentPrediction;
-  };
-}
-
-function saveItem() {
-  const price = document.getElementById("priceInput").value;
-
-  if (!currentPrediction || !price) {
-    alert("Falta reconocer o asignar precio");
-    return;
-  }
-
-  let collection = JSON.parse(localStorage.getItem("collection")) || [];
-
-  collection.push({
-    name: currentPrediction,
-    price: price
-  });
-
-  localStorage.setItem("collection", JSON.stringify(collection));
-
-  displayCollection();
-}
-
-function displayCollection() {
-  let collection = JSON.parse(localStorage.getItem("collection")) || [];
-  const list = document.getElementById("collectionList");
-  list.innerHTML = "";
-
-  collection.forEach(item => {
-    const li = document.createElement("li");
-    li.innerText = `${item.name} - $${item.price}`;
-    list.appendChild(li);
-  });
-}
-
-displayCollection();
+init();
